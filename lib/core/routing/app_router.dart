@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../features/splash/ui/screens/splash_screen.dart';
-import '../../features/onboarding/ui/screens/onboarding_screen.dart';
-import '../../features/auth/ui/screens/login_screen.dart';
-import '../../features/auth/ui/screens/register_screen.dart';
+// import '../../features/splash/ui/screens/splash_screen.dart';
+// import '../../features/onboarding/ui/screens/onboarding_screen.dart';
+// import '../../features/auth/ui/screens/login_screen.dart';
+// import '../../features/auth/ui/screens/register_screen.dart';
 import '../../features/main_layout/ui/screens/main_layout_screen.dart';
 import '../../features/movie_details/ui/screens/movie_details_screen.dart';
 import '../theme/app_colors.dart';
@@ -17,29 +17,29 @@ abstract class AppRouter {
     final uri = Uri.parse(settings.name ?? '/');
 
     switch (uri.path) {
-      case Routes.splashRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const SplashScreen(),
-        );
-
-      case Routes.onboardingRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const OnboardingScreen(),
-        );
-
-      case Routes.loginRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const LoginScreen(),
-        );
-
-      case Routes.registerRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const RegisterScreen(),
-        );
+      // case Routes.splashRoute:
+      //   return MaterialPageRoute(
+      //     settings: settings,
+      //     builder: (_) => const SplashScreen(),
+      //   );
+      //
+      // case Routes.onboardingRoute:
+      //   return MaterialPageRoute(
+      //     settings: settings,
+      //     builder: (_) => const OnboardingScreen(),
+      //   );
+      //
+      // case Routes.loginRoute:
+      //   return MaterialPageRoute(
+      //     settings: settings,
+      //     builder: (_) => const LoginScreen(),
+      //   );
+      //
+      // case Routes.registerRoute:
+      //   return MaterialPageRoute(
+      //     settings: settings,
+      //     builder: (_) => const RegisterScreen(),
+      //   );
 
       case Routes.mainLayoutRoute:
         return MaterialPageRoute(
