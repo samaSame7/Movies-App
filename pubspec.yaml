@@ -19,6 +19,7 @@ dependencies:
   equatable: ^2.0.8
   dio: ^5.9.2
   shared_preferences: ^2.5.4
+  carousel_slider: ^5.1.2
 
 dev_dependencies:
   flutter_test:
