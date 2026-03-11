@@ -31,11 +31,11 @@ class MoviePosterCard extends StatelessWidget {
         height: height,
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(15),
           color: AppColors.fieldFill,
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(15),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -62,15 +62,15 @@ class MoviePosterCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(150),
+                    color:AppColors.background.withAlpha(150),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
                       Text(
                         movie.rating.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColors.textLight,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
