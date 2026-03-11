@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/splash/ui/screens/splash_screen.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'features/main_layout/ui/screens/main_layout_screen.dart';
+import 'features/auth/api/auth_api_service.dart';
+import 'features/auth/bloc/auth_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => AuthBloc(authApiService: AuthApiService()),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.splashRoute,
       title: 'Route Movies',
       debugShowCheckedModeBanner: false,
-      home: const MainLayoutScreen(),
+      home: const SplashScreen(),
     );
   }
 }
