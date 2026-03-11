@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/features/profile/ui/screens/edit_profile_screen.dart';
 import '../../features/auth/ui/screens/login_screen.dart';
 import '../../features/auth/ui/screens/register_screen.dart';
 import '../../features/main_layout/ui/screens/main_layout_screen.dart';
@@ -53,6 +54,12 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) => MovieDetailsScreen(movieId: movieId),
         );
+      case Routes.movieDetailsRoute:
+        final movieId = settings.arguments as int? ?? 0;
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => EditProfileScreen(),
+        );
 
       default:
         return MaterialPageRoute(
@@ -78,4 +85,5 @@ abstract class Routes {
   static const String registerRoute = '/register';
   static const String mainLayoutRoute = '/mainLayout';
   static const String movieDetailsRoute = '/movieDetails';
+  static const String editProfileRoute = '/editProfile';
 }
