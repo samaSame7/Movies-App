@@ -21,6 +21,7 @@ class AppTheme {
           fontWeight: FontWeight.bold,
         ),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(style:ElevatedButton.styleFrom(backgroundColor: AppColors.primary) ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.fieldFill,
         type: BottomNavigationBarType.fixed,

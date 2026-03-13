@@ -7,28 +7,39 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.0
+  sdk: ^3.4.3
 
 
 dependencies:
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.1.0
   flutter_bloc: ^9.1.1
-  equatable: ^2.0.8
-  dio: ^5.9.2
-  shared_preferences: ^2.5.4
+  get_it: ^8.3.0
+  injectable: ^2.5.1
+  json_annotation: ^4.9.0
+  logger: ^2.6.0  # for logging purpose
+  pretty_dio_logger: ^1.4.0
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.5.0
+  firebase_auth: ^6.2.0
+  cloud_firestore: ^6.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^6.0.0
-
+  flutter_gen_runner: ^5.3.1
+  build_runner: any
+  flutter_lints:  ^3.0.0
+  retrofit_generator: ^8.2.1
+  json_serializable: ^6.8.0
+  injectable_generator: ^2.6.2
+flutter_gen:
+  output: lib/core/app_assets
+  line_length: 80
 flutter:
 
   uses-material-design: true
 
   assets:
-     - assets/
+     - assets/images/
