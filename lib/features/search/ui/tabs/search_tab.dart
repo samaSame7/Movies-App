@@ -41,7 +41,9 @@ class _SearchTabContentState extends State<SearchTabContent> {
               style: const TextStyle(color: AppColors.textLight),
               onSubmitted: (value) {
                 if (value.trim().isNotEmpty) {
-                  context.read<SearchBloc>().add(SearchMoviesEvent(value.trim()));
+                  context.read<SearchBloc>().add(
+                    SearchMoviesEvent(value.trim()),
+                  );
                 } else {
                   context.read<SearchBloc>().add(ClearSearchEvent());
                 }
@@ -51,7 +53,10 @@ class _SearchTabContentState extends State<SearchTabContent> {
                 fillColor: AppColors.fieldFill,
                 hintText: 'Search',
                 hintStyle: const TextStyle(color: AppColors.textHint),
-                prefixIcon: const Icon(Icons.search, color: AppColors.textLight),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.textLight,
+                ),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.close, color: AppColors.textLight),
                   onPressed: () {
@@ -72,23 +77,42 @@ class _SearchTabContentState extends State<SearchTabContent> {
                 builder: (context, state) {
                   if (state is SearchInitial) {
                     return const Center(
-                      child: Icon(Icons.local_movies_outlined, size: 100, color: AppColors.primary),
+                      child: Icon(
+                        Icons.local_movies_outlined,
+                        size: 100,
+                        color: AppColors.primary,
+                      ),
                     );
                   } else if (state is SearchLoading) {
-                    return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    );
                   } else if (state is SearchError) {
-                    return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    );
                   } else if (state is SearchLoaded) {
                     if (state.movies.isEmpty) {
-                      return const Center(child: Text('No movies found.', style: TextStyle(color: Colors.white)));
+                      return const Center(
+                        child: Text(
+                          'No movies found.',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
                     }
                     return GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.65,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.65,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
                       itemCount: state.movies.length,
                       itemBuilder: (context, index) {
                         return MoviePosterCard(

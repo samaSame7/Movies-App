@@ -10,7 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
   }
-
+  // main auth
   // Future<void> _onLoginRequested(
   //     LoginRequested event,
   //     Emitter<AuthState> emit,
@@ -42,6 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //   }
   // }
 
+  // virtual auth
   Future<void> _onRegisterRequested(
       RegisterRequested event,
       Emitter<AuthState> emit,

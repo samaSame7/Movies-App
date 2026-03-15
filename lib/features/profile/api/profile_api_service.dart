@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import '../../home/models/movie_model.dart';
 
 class ProfileApiService {
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: 'https://route-movie-apis.vercel.app/',
-  ));
+  final Dio _dio = Dio(
+    BaseOptions(baseUrl: 'https://route-movie-apis.vercel.app/'),
+  );
 
   Future<List<MovieModel>> getWatchlist(String token) async {
     try {

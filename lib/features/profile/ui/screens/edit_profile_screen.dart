@@ -157,8 +157,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: const Text(
                         'Reset Password',
                         style: TextStyle(color: Colors.white, fontSize: 16),

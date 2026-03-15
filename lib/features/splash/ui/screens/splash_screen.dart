@@ -29,18 +29,35 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Spacer(),
-          Center(child: Icon(Icons.play_circle_outline, size: 140, color: AppColors.primary)),
+          Center(
+            child: Icon(
+              Icons.play_circle_outline,
+              size: 140,
+              color: AppColors.primary,
+            ),
+          ),
           Spacer(),
           Padding(
             padding: EdgeInsets.only(bottom: 40.0),
             child: Column(
               children: [
-                Text('Route', style: TextStyle(color: AppColors.primary, fontSize: 36, fontWeight: FontWeight.w300, letterSpacing: 2)),
+                Text(
+                  'Route',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 36,
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 2,
+                  ),
+                ),
                 SizedBox(height: 8),
-                Text('Supervised by Mohamed Nabil', style: TextStyle(color: Colors.white54, fontSize: 14)),
+                Text(
+                  'Supervised by Mohamed Nabil',
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

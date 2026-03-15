@@ -16,10 +16,7 @@ class HomeLoaded extends HomeState {
   final List<MovieModel> carouselMovies;
   final List<MovieModel> actionMovies;
 
-  const HomeLoaded({
-    required this.carouselMovies,
-    required this.actionMovies,
-  });
+  const HomeLoaded({required this.carouselMovies, required this.actionMovies});
 
   @override
   List<Object> get props => [carouselMovies, actionMovies];

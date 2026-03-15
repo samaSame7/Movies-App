@@ -25,13 +25,18 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
         }
 
         final String initialGenre = _cachedGenres.first;
-        final moviesForGenre = await apiService.getMovies(genre: initialGenre, limit: 30);
+        final moviesForGenre = await apiService.getMovies(
+          genre: initialGenre,
+          limit: 30,
+        );
 
-        emit(BrowseLoaded(
-          genres: _cachedGenres,
-          selectedGenre: initialGenre,
-          movies: moviesForGenre,
-        ));
+        emit(
+          BrowseLoaded(
+            genres: _cachedGenres,
+            selectedGenre: initialGenre,
+            movies: moviesForGenre,
+          ),
+        );
       } catch (e) {
         emit(BrowseError(e.toString()));
       }
@@ -41,12 +46,17 @@ class BrowseBloc extends Bloc<BrowseEvent, BrowseState> {
       if (state is BrowseLoaded) {
         emit(BrowseLoading());
         try {
-          final moviesForGenre = await apiService.getMovies(genre: event.genre, limit: 30);
-          emit(BrowseLoaded(
-            genres: _cachedGenres,
-            selectedGenre: event.genre,
-            movies: moviesForGenre,
-          ));
+          final moviesForGenre = await apiService.getMovies(
+            genre: event.genre,
+            limit: 30,
+          );
+          emit(
+            BrowseLoaded(
+              genres: _cachedGenres,
+              selectedGenre: event.genre,
+              movies: moviesForGenre,
+            ),
+          );
         } catch (e) {
           emit(BrowseError(e.toString()));
         }

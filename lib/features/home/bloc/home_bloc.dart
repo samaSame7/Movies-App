@@ -11,9 +11,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onFetchHomeData(
-      FetchHomeData event,
-      Emitter<HomeState> emit,
-      ) async {
+    FetchHomeData event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(HomeLoading());
     try {
       final results = await Future.wait([
@@ -21,10 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         apiService.getMovies(limit: 10, genre: 'Action'),
       ]);
 
-      emit(HomeLoaded(
-        carouselMovies: results[0],
-        actionMovies: results[1],
-      ));
+      emit(HomeLoaded(carouselMovies: results[0], actionMovies: results[1]));
     } catch (e) {
       emit(HomeError(e.toString()));
     }

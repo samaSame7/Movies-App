@@ -14,13 +14,16 @@ class HistoryService {
       return decoded['id'] == movie.id;
     });
 
-    historyList.insert(0, jsonEncode({
-      'id': movie.id,
-      'title': movie.title,
-      'rating': movie.rating,
-      'medium_cover_image': movie.mediumCoverImage,
-      'genres': movie.genres,
-    }));
+    historyList.insert(
+      0,
+      jsonEncode({
+        'id': movie.id,
+        'title': movie.title,
+        'rating': movie.rating,
+        'medium_cover_image': movie.mediumCoverImage,
+        'genres': movie.genres,
+      }),
+    );
 
     if (historyList.length > 20) {
       historyList = historyList.sublist(0, 20);
