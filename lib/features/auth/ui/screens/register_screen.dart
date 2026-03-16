@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_assets/app_assets.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_text_field.dart';
 import 'package:movies_app/features/auth/ui/widgets/avatar_selector.dart';
 import 'package:movies_app/features/auth/ui/widgets/language_switch.dart';
-
-import '../../../../core/widgets/app_dialogues.dart';
-import '../../firebase_utility.dart';
-import '../../user_dm.dart';
+import '../../../profile/ui/tabs/profile_tab.dart';
+import '../../cubits/register/register_cubit.dart';
+import '../../cubits/register/register_state.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,15 +20,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
-
   final passController = TextEditingController();
-
+  final confirmPassController = TextEditingController();
   final nameController = TextEditingController();
-
   final phoneController = TextEditingController();
   int selectedAvatarIndex = 0;
-  var formKey = GlobalKey<FormState>();
-  List<String> avatars = [
+  final formKey = GlobalKey<FormState>();
+
+  final List<String> avatars = [
     AppAssets.avatar1,
     AppAssets.avatar2,
     AppAssets.avatar3,
@@ -42,187 +41,158 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: AppBar(
-          backgroundColor: AppColors.background,
-          centerTitle: true,
-          title: const Text(
-            'Register',
-            style: TextStyle(fontSize: 16, color: AppColors.primary),
-          ),
-          leading: const Icon(
-            Icons.arrow_back_ios_new_outlined,
-            color: AppColors.primary,
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  AvatarSelector(
-                    avatars: avatars,
-                    onAvatarSelected: (index) {
-                      setState(() {
-                        selectedAvatarIndex = index;
-                      });
-                    },
+    return BlocProvider(
+      create: (_) => RegisterCubit(),
+      child: BlocConsumer<RegisterCubit, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+          if (state is RegisterSuccess) {
+
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          var cubit = RegisterCubit.get(context);
+
+          return SafeArea(
+            child: Scaffold(
+              backgroundColor: AppColors.background,
+              appBar: AppBar(
+                backgroundColor: AppColors.background,
+                centerTitle: true,
+                title: const Text(
+                  'Register',
+                  style: TextStyle(fontSize: 16, color: AppColors.primary),
+                ),
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_outlined,
+                    color: AppColors.primary,
                   ),
-                  const SizedBox(height: 22),
-                  const Text(
-                    'Avatar',
-                    style: TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  CustomTextField(
-                      controller: nameController,
-                      validator: (text) {
-                        if (text?.isEmpty == true)
-                          return "Please enter valid name";
-                        return null;
-                      },
-                      hintText: 'Name',
-                      prefixIcon: AppAssets.nameIcon),
-                  CustomTextField(
-                    hintText: 'Email',
-                    prefixIcon: AppAssets.emailIcon,
-                    controller: emailController,
-                    validator: (text) {
-                      if (text?.isEmpty == true) return "Please valid email";
-                      var isValid = RegExp(
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                          .hasMatch(text!);
-                      if (!isValid) return "this email is in invalid form";
-                      return null;
-                    },
-                  ),
-                  CustomTextField(
-                    hintText: 'Password',
-                    isPassword: true,
-                    prefixIcon: AppAssets.passIcon,
-                    controller: passController,
-                    validator: (text) {
-                      if (text == null || text.isEmpty == true) {
-                        return "Please enter valid password";
-                      }
-                      if (text.length < 6) {
-                        return "Your password is weak";
-                      }
-                      return null;
-                    },
-                  ),
-                  CustomTextField(
-                      isPassword: true,
-                      validator: (text) {
-                        if (text == null || text.isEmpty == true) {
-                          return "Please enter valid password";
-                        }
-                        if (text != passController.text) {
-                          return "Password does not match";
-                        }
-                        return null;
-                      },
-                      hintText: 'Confirm Password',
-                      prefixIcon: AppAssets.confirmPassIcon),
-                  CustomTextField(
-                      hintText: 'Phone number',
-                      controller: phoneController,
-                      validator: (text) {
-                        if (text?.isEmpty == true || text!.length < 11) {
-                          return "Please valid phone number";
-                        }
-                        return null;
-                      },
-                      prefixIcon: AppAssets.phoneIcon),
-                  buildCustomElevatedButton(),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              body: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
                       children: [
-                        Text(
-                          'Already have an account? ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textLight),
+                        AvatarSelector(
+                          avatars: avatars,
+                          onAvatarSelected: (index) {
+                            setState(() {
+                              selectedAvatarIndex = index;
+                            });
+                          },
                         ),
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primary),
+                        const SizedBox(height: 22),
+                        const Text('Avatar',
+                            style: TextStyle(
+                                color: Colors.white70, fontSize: 16)),
+                        const SizedBox(height: 6),
+                        CustomTextField(
+                          controller: nameController,
+                          hintText: 'Name',
+                          prefixIcon: AppAssets.nameIcon,
                         ),
+                        CustomTextField(
+                          hintText: 'Email',
+                          controller: emailController,
+                          prefixIcon: AppAssets.emailIcon,
+                        ),
+                        CustomTextField(
+                          hintText: 'Password',
+                          isPassword: true,
+                          controller: passController,
+                          prefixIcon: AppAssets.passIcon,
+                        ),
+                        CustomTextField(
+                          hintText: 'Confirm Password',
+                          isPassword: true,
+                          controller: confirmPassController,
+                          prefixIcon: AppAssets.confirmPassIcon,
+                        ),
+                        CustomTextField(
+                          hintText: 'Phone number',
+                          controller: phoneController,
+                          prefixIcon: AppAssets.phoneIcon,
+                        ),
+                        const SizedBox(height: 16),
+                        state is RegisterLoading
+                            ? const CircularProgressIndicator()
+                            : CustomElevatedButton(
+                          title: 'Create account',
+                          backgroundColor: AppColors.primary,
+                          titleColor: AppColors.background,
+                          onPressed: () {
+                            if (!formKey.currentState!.validate()) return;
+                            if (passController.text !=
+                                confirmPassController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Passwords do not match")),
+                              );
+                              return;
+                            }
+
+                            cubit.register(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passController.text,
+                              phone: phoneController.text,
+                              avatar: avatars[selectedAvatarIndex],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Already have an account? ',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textLight),
+                              ),
+                              Text(
+                                'Login',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.primary),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const LanguageSwitch(),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const LanguageSwitch(),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
-  }
-
-  CustomElevatedButton buildCustomElevatedButton() {
-    return CustomElevatedButton(
-        onPressed: () async {
-          if (!formKey.currentState!.validate()) return;
-
-          try {
-            showLoading(context);
-            final credential =
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailController.text,
-              password: passController.text,
-            );
-            UserDM.currentUser = UserDM(
-              id: credential.user!.uid,
-              name: nameController.text,
-              email: emailController.text,
-              phoneNumber: phoneController.text,
-              profilePhoto: avatars[selectedAvatarIndex],
-            );
-
-            createUserInFirestore(UserDM.currentUser!);
-            Navigator.pop(context);
-            // Navigator.push(context, AppRoutes.navigation);
-          } on FirebaseAuthException catch (e) {
-            Navigator.pop(context);
-            var message = '';
-            if (e.code == 'weak-password') {
-              message = 'The password provided is too weak.';
-            } else if (e.code == 'email-already-in-use') {
-              message = 'The account already exists for that email.';
-            } else {
-              message =
-                  e.message ?? "Something went wrong please try again later";
-            }
-            showMessage(context, message, title: 'error', posText: 'ok');
-          } catch (e) {
-            showMessage(context, "Something went wrong please try again later",
-                title: 'error', posText: 'ok');
-          }
-        },
-        title: 'Create account',
-        backgroundColor: AppColors.primary,
-        titleColor: AppColors.background);
   }
 }

@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:movies_app/core/app_assets/app_assets.dart';
+import 'package:movies_app/core/routing/app_router.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/features/auth/ui/screens/login_screen.dart';
 import 'package:movies_app/features/auth/user_dm.dart';
 
 class ProfileScreen extends StatefulWidget {
-
-
-  const ProfileScreen({super.key,});
+  const ProfileScreen({
+    super.key,
+  });
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -18,31 +19,35 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int _selectedTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(color: AppColors.fieldFill,
+              Container(
+                color: AppColors.fieldFill,
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 14,),
-
+                      const SizedBox(
+                        height: 14,
+                      ),
                       Row(
                         children: [
                           CircleAvatar(
                             radius: 42,
-                            child: Image.asset(UserDM.currentUser!.profilePhoto),
+                            child:
+                                Image.asset(UserDM.currentUser!.profilePhoto),
                           ),
                           const SizedBox(width: 24),
-
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,8 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                       const SizedBox(height: 12),
-
-
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
@@ -75,110 +78,125 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-
                       Row(
-                          children: [Expanded(
+                        children: [
+                          Expanded(
                               child: CustomElevatedButton(
-                                onPressed: () {
-
-                                },
-                                title:
-                                'Edit Profile',
-                                backgroundColor: AppColors.primary,
-                                titleColor: AppColors.background,
-                              )
-                          ),
-
-                      const SizedBox(width: 12),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              backgroundColor: const Color(0xFF1A1A1A),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              title: const Text(
-                                'Exit',
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                              ),
-                              content: const Text(
-                                'Are you sure you want to logout?',
-                                style: TextStyle(color: Colors.white70),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(ctx),
-                                  child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(ctx);
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(builder: (_) => const LoginScreen()),
-                                          (route) => false,
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFD32F2F),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
+                            onPressed: () async{
+                              final result = await Navigator.pushNamed(
+                                  context, Routes.updateProfileRoute);
+                              if (result == true) {
+                                setState(() {});
+                              }
+                            },
+                            title: 'Edit Profile',
+                            backgroundColor: AppColors.primary,
+                            titleColor: AppColors.background,
+                          )),
+                          const SizedBox(width: 12),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  backgroundColor: const Color(0xFF1A1A1A),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: const Text('OK', style: TextStyle(color: Colors.white)),
+                                  title: const Text(
+                                    'Exit',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  content: const Text(
+                                    'Are you sure you want to logout?',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Cancel',
+                                          style:
+                                              TextStyle(color: Colors.white54)),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const LoginScreen()),
+                                          (route) => false,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xFFD32F2F),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: const Text('OK',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              );
+                            },
+                            label: const Text(
+                              'Exit',
+                              style: TextStyle(color: Colors.white),
                             ),
-                          );                },
-
-                        label: const Text('Exit',style: TextStyle(color: Colors.white),),
-                        icon: const Icon(Icons.logout, size: 18,color: Colors.white,),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.red,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: 20,
+                            icon: const Icon(
+                              Icons.logout,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.red,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 14,
+                                horizontal: 20,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                        ],
+                      ),
+                      const SizedBox(height: 28),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: _TabItem(
+                              icon: Icons.list,
+                              label: 'Watch List',
+                              selected: _selectedTab == 0,
+                              onTap: () => setState(() => _selectedTab = 0),
+                              activeColor: AppColors.primary,
+                            ),
                           ),
-                          elevation: 0,
-                        ),
+                          const SizedBox(width: 32),
+                          Expanded(
+                            child: _TabItem(
+                              icon: Icons.folder,
+                              label: 'History',
+                              selected: _selectedTab == 1,
+                              onTap: () => setState(() => _selectedTab = 1),
+                              activeColor: AppColors.primary,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 28),
-
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _TabItem(
-                          icon: Icons.list,
-                          label: 'Watch List',
-                          selected: _selectedTab == 0,
-                          onTap: () => setState(() => _selectedTab = 0),
-                          activeColor: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 32),
-                      Expanded(
-                        child: _TabItem(
-                          icon: Icons.folder,
-                          label: 'History',
-                          selected: _selectedTab == 1,
-                          onTap: () => setState(() => _selectedTab = 1),
-                          activeColor: AppColors.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-
-
-
-                  ],
-                          ),
                 ),
               ),
               Container(
@@ -192,11 +210,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
+        ),
       ),
-    ),);
+    );
   }
 }
-
 
 class _StatColumn extends StatelessWidget {
   final int count;
@@ -220,10 +238,7 @@ class _StatColumn extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-          ),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -261,8 +276,7 @@ class _TabItem extends StatelessWidget {
             label,
             style: TextStyle(
               color: selected ? Colors.white : Colors.white54,
-              fontWeight:
-              selected ? FontWeight.w700 : FontWeight.w400,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
               fontSize: 15,
             ),
           ),
@@ -281,4 +295,3 @@ class _TabItem extends StatelessWidget {
     );
   }
 }
-

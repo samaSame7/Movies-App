@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:movies_app/features/auth/user_dm.dart';
 
 import '../../core/widgets/app_dialogues.dart';
@@ -15,6 +16,24 @@ Future<void> createUserInFirestore(UserDM user) async {
   await emptyDoc.set(user.toJson());
 
 }
+
+ Future<void> updateUserProfile({
+required String userId,
+required String name,
+required String phone,
+required String avatar,
+}) async {
+
+await FirebaseFirestore.instance
+    .collection("users")
+    .doc(userId)
+    .update({
+"name": name,
+"phone_number": phone,
+"profile_photo": avatar,
+});
+}
+
 
 Future<UserDM> getUserFromFirestore(String uid, User? firebaseUser) async {
   var userCollection = FirebaseFirestore.instance.collection("users");
@@ -73,5 +92,48 @@ Future<void> verifyEmailAndResetPassword(
         posText: "OK",
       );
     }
+  }
+}
+Future<void> deleteAccount(BuildContext context) async {
+  try {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) throw Exception("No user logged in");
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .delete();
+
+    await user.delete();
+
+    UserDM.currentUser = null;
+
+    Navigator.pop(context);
+
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/login', (route) => false);
+
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context); // اغلاق loading
+    String message = '';
+    if (e.code == 'requires-recent-login') {
+      message =
+      "You need to re-login before deleting your account.";
+    } else {
+      message = e.message ?? "Something went wrong.";
+    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  } catch (e) {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Something went wrong.")));
   }
 }

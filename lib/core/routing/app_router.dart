@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/features/auth/ui/screens/forget_password.dart';
 import 'package:movies_app/features/auth/ui/screens/register_screen.dart';
 import 'package:movies_app/features/onboarding/ui/screens/onboarding_screen.dart';
+import 'package:movies_app/features/profile/ui/update_profile.dart';
 import '../../features/auth/ui/screens/login_screen.dart';
 import '../../features/splash/ui/screens/splash_screen.dart';
 
@@ -43,6 +44,11 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) => const ForgetPassword(),
         );
+      case Routes.updateProfileRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const UpdateProfile(),
+        );
       default:
         return MaterialPageRoute(
           settings: settings,
@@ -68,5 +74,7 @@ abstract class Routes {
   static const String mainLayoutRoute = '/mainLayout';
   static const String movieDetailsRoute = '/movieDetails';
   static const String forgetPasswordRoute = '/forgetPassword';
+  static const String updateProfileRoute = '/updateProfile';
+
 
 }

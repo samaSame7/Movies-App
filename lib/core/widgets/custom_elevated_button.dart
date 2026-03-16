@@ -20,7 +20,7 @@ final String? icon;
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          side: const BorderSide(color: AppColors.primary),
+          side:  BorderSide(color:title=='Delete Account'?AppColors.red: AppColors.primary),
           backgroundColor: backgroundColor,
           foregroundColor: titleColor,
 
