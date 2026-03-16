@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProfileScreen(),
+                builder: (context) => const ProfileTabContent(),
               ),
             );
           }

@@ -5,6 +5,7 @@ import 'package:movies_app/core/routing/app_router.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_text_field.dart';
+import 'package:movies_app/features/main_layout/ui/screens/main_layout_screen.dart';
 import 'package:movies_app/features/profile/ui/tabs/profile_tab.dart';
 import '../../../../core/app_assets/app_assets.dart';
 import '../../../../core/widgets/app_dialogues.dart';
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfileScreen(),
+                builder: (context) => const MainLayoutScreen(),
               ),
             );
           }

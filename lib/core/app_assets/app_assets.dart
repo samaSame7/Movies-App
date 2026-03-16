@@ -26,5 +26,10 @@ abstract final class AppAssets {
   static const String avatar8 = 'assets/images/avatar_8.png';
   static const String avatar9 = 'assets/images/avatar_9.png';
   static const String popCorn = 'assets/images/pop_corn.png';
+  static const String _base = 'assets/images/';
+  static const String icBrowse = '${_base}browse.png';
+  static const String icHome = '${_base}home.png';
+  static const String icProfile = '${_base}Profiel.png';
+  static const String icSearch = '${_base}serach.png';
 
 }

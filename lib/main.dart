@@ -4,8 +4,9 @@ import 'package:movies_app/features/splash/ui/screens/splash_screen.dart';
 
 import 'core/routing/app_router.dart';
 import 'firebase_options.dart';
+import 'package:http/http.dart' as http;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,9 +22,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       initialRoute: Routes.splashRoute,
       onGenerateRoute: AppRouter.generateRoute,
-      home:SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }
-
-
